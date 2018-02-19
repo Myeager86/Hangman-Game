@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <title>Psychic game</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>The Psychic Game!!</h1>
+            <p>Try to guess the letter the computer is thinking!
+            </p>
+        </div>
+        <p id="psychic">Guess any letter to start playing.</p>
+    </div>
+
+    <script>
+
+        var letterSelection = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
+        var wins = 0;
+        var losses = 0;
+        var lives = 20;
+
+
+        var guessesSoFar = [];
+        document.onkeydown = function (e) {
+            var keyPress;
+
+            if (typeof event !== 'undefined') {
+                keyPress = event.keyCode;
+            }
+            else if (e) {
+                keyPress = e.which;
+            }
+
+            guessesSoFar.push(String.fromCharCode(keyPress));
+        };
+
+
+        document.onkeyup = function (event) {
+            var userGuess = event.key;
+            var computerGuess = letterSelection[Math.floor(Math.random() * letterSelection.length)];
+
+            if ((userGuess === "a") || (userGuess === "b") || (userGuess === "c" || (userGuess === "d") || (userGuess === "e") || (userGuess === "f") || (userGuess === "g") || (userGuess === "h") || (userGuess === "i") || (userGuess === "j") || (userGuess === "k") || (userGuess === "l") || (userGuess === "m") || (userGuess === "n") || (userGuess === "o") || (userGuess === "p") || (userGuess === "q") || (userGuess === "r") || (userGuess === "s") || (userGuess === "t") || (userGuess === "u") || (userGuess === "v") || (userGuess === "w") || (userGuess === "x") || (userGuess === "y") || (userGuess === "z"))) {
+
+                if (userGuess === computerGuess) {
+                    wins++;
+                }
+
+                if (userGuess != computerGuess) {
+                    losses++;
+                    lives--;
+
+                    if (lives === 0) {
+                        alert("You lost! Click okay to try again");
+                        lives = 20;
+                        wins = 0;
+                        losses = 0;
+                        guessesSoFar = [];
+                    }
+
+                    if (wins === 10) {
+                        alert("You won! Refresh the page to play again");
+                        lives = 20;
+                        wins = 0;
+                        losses = 0;
+                        guessesSoFar = [];
+                    }
+                }
+
+                var html =
+                    "<p>You guessed: " + userGuess + "</p>" +
+                    "<p>The computer guessed: " + computerGuess + "</p>" +
+                    "<p>Wins: " + wins + "</p>" +
+                    "<p>Losses: " + losses + "</p>" +
+                    "<p>Lives: " + lives + "</p>" +
+                    "<p>Guesses so far: " + guessesSoFar + "</p>";
+
+                document.querySelector("#psychic").innerHTML = html;
+            }
+        };
+
+    </script>
+</body>
+
+</html>
